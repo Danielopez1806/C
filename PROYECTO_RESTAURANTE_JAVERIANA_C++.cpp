@@ -3,6 +3,10 @@
 #include <istream>
 using namespace std;
 
+//Prueba
+
+
+
 #pragma region Estructuras
 struct Ingrediente {
 
@@ -197,4 +201,5 @@ int main()
 
 	} while (opcion != 99);
 }
+
 #pragma endregion Main
