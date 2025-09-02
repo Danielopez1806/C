@@ -3,9 +3,6 @@
 #include <istream>
 using namespace std;
 
-//Prueba
-
-
 
 #pragma region Estructuras
 struct Ingrediente {
@@ -203,3 +200,4 @@ int main()
 }
 
 #pragma endregion Main
+
