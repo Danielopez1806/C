@@ -3,7 +3,6 @@
 #include <istream>
 using namespace std;
 
-
 #pragma region Estructuras
 struct Ingrediente {
 
@@ -136,9 +135,102 @@ void AgregarIngredientes(Ingrediente**& ingrediente, int& n)
 
 }
 
+void AgregarPlatos(Plato**& platos, int& numPlatos, Ingrediente** ingredientes, int numIngredientes) {
+	if (numIngredientes == 0) {
+		cout << "No puede crear platos sin ingredientes registrados primero." << endl;
+		return;
+	}
+
+	int cantidad;
+	cout << "¿Cuantos platos desea agregar? ";
+	cin >> cantidad;
+
+	for (int i = 0; i < cantidad; i++) {
+		platos = redimensionarPlato(platos, numPlatos, numPlatos + 1);
+
+		Plato* nuevoPlato = new Plato;
+
+		cin.ignore();
+		cout << " Plato No#" << (numPlatos + 1) << " =========" << endl;
+		cout << "Codigo del plato: ";
+		cin >> nuevoPlato->codigo;
+
+		cin.ignore();
+		cout << "Nombre del plato: ";
+		getline(cin, nuevoPlato->nombre);
+
+		cout << "Precio del plato: ";
+		cin >> nuevoPlato->precio;
+
+		cout << "¿Cuantos ingredientes tendra este plato?: ";
+		cin >> nuevoPlato->num_Ingredientes;
+
+		nuevoPlato->ingredientes = new Plato_Ingrediente[nuevoPlato->num_Ingredientes];
+
+		for (int i = 0; i < nuevoPlato->num_Ingredientes; i++) {
+			cout << endl << "Seleccione el ingrediente No#" << i + 1 << " de la lista:" << endl;
+			for (int j = 0; j < numIngredientes; j++) {
+				cout << j + 1 << ". " << ingredientes[j]->nombre_ingrediente << " (" << ingredientes[j]->codigo_ingrediente << ")" << endl;
+			}
+
+			int opcionIng;
+			cout << "Ingrese el numero del ingrediente: ";
+			cin >> opcionIng;
+
+			if (opcionIng < 1 || opcionIng > numIngredientes) {
+				cout << "Ingrediente invalido, se asignara el primero." << endl;
+				opcionIng = 1;
+			}
+
+			nuevoPlato->ingredientes[i].ingrediente = ingredientes[opcionIng - 1];
+
+			cout << "Cantidad necesaria de este ingrediente: ";
+			cin >> nuevoPlato->ingredientes[i].cantidad;
+		}
+
+		*(platos + numPlatos) = nuevoPlato;
+		numPlatos++;
+	}
+}
 
 #pragma endregion Agregar_Platos_Ingredientes
 
+#pragma region MostrarMenu
+
+void MostrarMenu(Plato** platos, int numPlatos)
+{
+	if (numPlatos == 0) {
+		cout << "No hay platos registrados en el sistema. " << endl;
+		return;
+	}
+	cout << "===== MENU DEL RESTAURANTE =====" << endl;
+	for (int i = 0; i < numPlatos; i++) {
+		Plato* p = *(platos + i);
+		cout << "--------------------------------" << endl;
+		cout << "Codigo: " << p->codigo << endl;
+		cout << "Nombre: " << p->nombre << endl;
+		cout << "Precio: $" << p->precio << endl;
+		cout << "Ingredientes: " << endl;
+
+		for (int j = 0; j < p->num_Ingredientes; j++) {
+			Plato_Ingrediente platoIngredientes = p->ingredientes[j];
+			cout << "   - " << platoIngredientes.ingrediente->nombre_ingrediente
+				<< " (" << platoIngredientes.cantidad << " " << platoIngredientes.ingrediente->descripcion_unidad << ")\n";
+		}
+	}
+	cout << "===============================" << endl;
+
+
+
+
+
+
+}
+
+
+
+
+#pragma endregion MostrarMenu
 
 #pragma region Main
 int main()
@@ -157,7 +249,7 @@ int main()
 		cout << "RESTAURANTE JAVEREST" << endl;
 		cout << "opcion 1: agregar ingredientes al sistema" << endl;
 		cout << "opcion 2 : agregar platos al sistema" << endl;
-		cout << "opcion 3 : mostrar el menú del restaurante" << endl;
+		cout << "opcion 3 : mostrar el menu restaurante" << endl;
 		cout << "opcion 4 : agregar una orden al sistema " << endl;
 		cout << "opcion 5 : mostrar los tres platos más solicitados" << endl;
 		cout << "opcion 6 : mostrar los tres platos más rentables " << endl;
@@ -172,11 +264,18 @@ int main()
 			AgregarIngredientes(ingredientes, num_ingredientes);
 			break;
 		}
-		/*case 2:
-		{}
+		case 2:
+		{
+			AgregarPlatos(platos, numero_platos, ingredientes, num_ingredientes);
+			break;
+		}
 		case 3:
-		{}
-		case 4:
+		{
+			MostrarMenu(platos, numero_platos);
+			break;
+
+		}
+		/*case 4:
 		{}
 		case 5:
 		{}
@@ -188,16 +287,8 @@ int main()
 			cout << "Usted eligio salir";
 			break;
 		}
-
-
-
-
-		}
-
-
-
-	} while (opcion != 99);
+		
+	} 
+} while (opcion != 99);
 }
-
 #pragma endregion Main
-
