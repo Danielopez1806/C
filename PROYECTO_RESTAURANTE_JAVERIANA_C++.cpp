@@ -103,15 +103,19 @@ void AgregarIngredientes(Ingrediente**& ingrediente, int& n)
 
 	for (int i = 0; i < cantidad; i++)
 	{
+		//redimensionar los ingredientes para agregarlos dinamicamente
 		ingrediente = redimensionarIngrediente(ingrediente, n, n + 1);
 
 		Ingrediente* ingrediente_agregar = new Ingrediente;
 
 		cin.ignore();
-
+//agregar los ingredietnes con los datos requeridos en el enunciado
 		cout << "=========Ingrediente agregado numero: " << i + 1 << endl;
 		cout << "Codigo: ";
 		getline(cin, ingrediente_agregar->codigo_ingrediente);
+
+		cout <<"Nombre del plato: " ;
+		getline(cin, ingrediente_agregar-> nombre_ingrediente);
 
 		cout << "Precio Unitario: ";
 		cin >> ingrediente_agregar->precio_unitario;
@@ -124,7 +128,7 @@ void AgregarIngredientes(Ingrediente**& ingrediente, int& n)
 		cout << "Inventario: ";
 		cin >> ingrediente_agregar->inventario;
 
-		cout << "Inventario Minimo";
+		cout << "Inventario Minimo: ";
 		cin >> ingrediente_agregar->inventario_minimo;
 
 
@@ -142,14 +146,16 @@ void AgregarPlatos(Plato**& platos, int& numPlatos, Ingrediente** ingredientes, 
 	}
 
 	int cantidad;
-	cout << "¿Cuantos platos desea agregar? ";
+	cout << "Cuantos platos desea agregar? ";
 	cin >> cantidad;
 
 	for (int i = 0; i < cantidad; i++) {
+//redimensionar platos, para agregar los platos que yo quieraa
 		platos = redimensionarPlato(platos, numPlatos, numPlatos + 1);
 
 		Plato* nuevoPlato = new Plato;
 
+//llenar los datos del plato de acuerdo al enunciado
 		cin.ignore();
 		cout << " Plato No#" << (numPlatos + 1) << " =========" << endl;
 		cout << "Codigo del plato: ";
@@ -162,7 +168,7 @@ void AgregarPlatos(Plato**& platos, int& numPlatos, Ingrediente** ingredientes, 
 		cout << "Precio del plato: ";
 		cin >> nuevoPlato->precio;
 
-		cout << "¿Cuantos ingredientes tendra este plato?: ";
+		cout << "Cuantos ingredientes tendra este plato?: ";
 		cin >> nuevoPlato->num_Ingredientes;
 
 		nuevoPlato->ingredientes = new Plato_Ingrediente[nuevoPlato->num_Ingredientes];
